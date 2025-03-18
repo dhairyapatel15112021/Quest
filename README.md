@@ -61,5 +61,11 @@ Quest/
 └── docs/             # Project documentation
 ```
 
-Setup Instructions
-For installation and setup instructions, please refer to the <a href="/docs/SETUP.md">SETUP.md</a> file.
+## Setup Instructions
+- For installation and setup instructions, please refer to the <a href="/docs/SETUP.md">SETUP.md</a> file.
+
+## Database Schema
+- For Database Schema, please refer to the <a href="/docs/DB_Diagram.png">DB</a> file.
+
+## Application Architecture
+- For Application Architecture, please refer to the <a href="/docs/Architecture_Diagram.png">Architecture</a> Diagram.
