@@ -158,9 +158,9 @@ export const Dashboard = () => {
                         ) : (
                             <div className='space-y-4 pt-2'>
                                 {quests.map((quest) => (
-                                    <div key={quest._id} className='grid grid-cols-9 grid-rows-1 text-gray-500 py-2 font-bold text-sm'>
-                                        <div className='col-span-6 grid grid-cols-4 grid-rows-1'>
-                                            <img onClick={() => redirectToQuestDetails(quest._id)} src={quest.quest_image} className='rounded-2xl h-[100px] cursor-pointer' alt=".png" />
+                                    <div key={quest._id} className='grid grid-cols-9 grid-rows-1 place-items-start text-gray-500 py-2 font-bold text-sm'>
+                                        <div className='col-span-6 grid grid-cols-4 grid-rows-1 w-full'>
+                                           <div className='flex justify-center items-center'> <img onClick={() => redirectToQuestDetails(quest._id)} src={quest.quest_image} className='rounded-2xl h-[100px] cursor-pointer' alt="quest.png" /></div>
                                             <div className='flex flex-col gap-1'>
                                                 <div className='text-lg font-semibold text-black'>{quest.Title}</div>
                                                 <div className='text-sm font-light text-black'>{quest.Description}</div>

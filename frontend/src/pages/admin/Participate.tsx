@@ -127,9 +127,10 @@ export const Participate: React.FC = () => {
             <Loader />
           </div>
         ) : (
+          filteredParticipants.length > 0 ? (
           <div className="grid gap-4 overflow-y-scroll h-full">
             {filteredParticipants.map((participant, index) => (
-              <div key={participant._id} className="rounded-2xl shadow-sm bg-[#efede5] border border-gray-100 p-6">
+              <div key={participant._id} className="rounded-2xl shadow-sm bg-[#efede5] border border-gray-100 p-3 px-6">
                 <div className="grid grid-cols-12 gap-6">
                   {/* User Info */}
                   <div className="col-span-3 flex items-center space-x-4">
@@ -187,7 +188,12 @@ export const Participate: React.FC = () => {
               </div>
             ))}
           </div>
-        )}
+        ) : (
+          <div className='w-full mt-auto h-full flex items-center justify-center'>
+            <h1 className='text-2xl mt-[10%] font-medium text-gray-600'>No Participants</h1>
+          </div>
+        )
+      )}
       </div>
     </div>
   );

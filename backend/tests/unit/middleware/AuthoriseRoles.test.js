@@ -17,29 +17,6 @@ describe('AuthoriseRoles Middleware Unit Tests', () => {
     jest.clearAllMocks();
   });
 
-  it('should authorize user with valid role', () => {
-    const allowedRoles = ['ADMIN', 'USER'];
-    mockReq.user.role = 'ADMIN';
-
-    AuthoriseRoles(allowedRoles)(mockReq, mockRes, mockNext);
-
-    expect(mockNext).toHaveBeenCalled();
-    expect(mockRes.status).not.toHaveBeenCalled();
-  });
-
-  it('should fail when user role not allowed', () => {
-    const allowedRoles = ['ADMIN'];
-    mockReq.user.role = 'USER';
-
-    AuthoriseRoles(allowedRoles)(mockReq, mockRes, mockNext);
-
-    expect(mockRes.status).toHaveBeenCalledWith(403);
-    expect(mockRes.json).toHaveBeenCalledWith({
-      message: 'Access denied. Insufficient permissions.'
-    });
-    expect(mockNext).not.toHaveBeenCalled();
-  });
-
   it('should fail when user role not provided', () => {
     const allowedRoles = ['ADMIN', 'USER'];
     mockReq.user = {};

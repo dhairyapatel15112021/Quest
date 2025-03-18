@@ -12,28 +12,28 @@ const questCreateController = async (req, res) => {
         const processData = end_date && end_date.trim() !== "" ? { ...req.body } : { ...data };
         const result = questSchema.safeParse({
             ...processData,
-            total_budget : Number(req.body.total_budget)
+            total_budget: Number(req.body.total_budget)
         });
-        
+
         if (!result.success) {
             return res.status(400).json({
                 success: false,
                 errors: result.error.errors.map(err => err.message)
             });
         }
-        
+
         const existingQuest = await Quest.findOne({ Title: result.data.Title });
         if (existingQuest) {
             return res.status(403).json({ success: false, message: "Quest with this title already exists" });
         }
 
-        
+
         const newQuest = new Quest({
             ...req.body,
-            create_by : req.user.id,
+            create_by: req.user.id,
             quest_image: req.file ? req.file.buffer : null
         });
-        
+
         const storedQuest = await newQuest.save();
         res.status(201).json({ success: true, message: "Quest created successfully", quest: storedQuest });
     }
@@ -46,7 +46,7 @@ const getQuestController = async (req, res) => {
     try {
         const allQuests = await Quest.find().lean();
         // When documents are queried, they are returned as Mongoose Documents by default. With the Mongoose lean() method, the documents are returned as plain objects.
-        
+
         const enhancedQuests = await Promise.all(allQuests.map(async (quest) => {
             // Get total participants
             const totalParticipants = await UserQuest.countDocuments({
@@ -55,7 +55,7 @@ const getQuestController = async (req, res) => {
 
             const questChallenges = await Challenge.find({
                 fk_quest_id: quest._id
-            }); 
+            });
 
             const challengeIds = questChallenges.map(challenge => challenge._id);
 
@@ -73,22 +73,22 @@ const getQuestController = async (req, res) => {
                 {
                     $group: {
                         _id: null,
-                        totalLikes: { 
-                            $sum: { 
-                                $cond: [{ $eq: ["$isLiked", true] }, 1, 0] 
-                            } 
+                        totalLikes: {
+                            $sum: {
+                                $cond: [{ $eq: ["$isLiked", true] }, 1, 0]
+                            }
                         },
-                        totalShares: { 
-                            $sum: { 
-                                $cond: [{ $eq: ["$isShared", true] }, 1, 0] 
-                            } 
+                        totalShares: {
+                            $sum: {
+                                $cond: [{ $eq: ["$isShared", true] }, 1, 0]
+                            }
                         }
                     }
                 }
             ]);
 
             // Get total rewards distributed
-           
+
 
             // Convert quest_image buffer to base64 if it exists
             const questData = { ...quest };
@@ -148,18 +148,18 @@ const getQuestController = async (req, res) => {
             totalRewardsDistributed: totalRewardsDistributed[0]?.totalPointsDistributed || 0
         };
 
-        res.status(200).json({ 
-            success: true, 
+        res.status(200).json({
+            success: true,
             quests: enhancedQuests,
             overallStats
         });
     }
     catch (err) {
         console.error('Error in getQuestController:', err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Internal Server Error", 
-            error: err.message 
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: err.message
         });
     }
 }
@@ -171,7 +171,7 @@ const updateQuestActiveStatus = async (req, res) => {
         if (!quest) {
             return res.status(404).json({ message: "Quest not found" });
         }
-        if(quest.is_Active === "completed"){
+        if (quest.is_Active === "completed") {
             return res.status(401).json({ message: "Quest Is Completed,Can Not Do Changes" });
         }
 
@@ -181,7 +181,7 @@ const updateQuestActiveStatus = async (req, res) => {
         if (endDate && endDate < currentDate) {
             return res.status(400).json({ message: "Quest has already ended" });
         }
-        
+
         quest.is_Active = (quest.is_Active === "created" ? "active" : "created");
         await quest.save();
 
@@ -201,7 +201,7 @@ const getActiveQuests = async (req, res) => {
             is_Active: "active",
             $or: [
                 { end_date: { $gt: currentDate } },
-                { end_date: null } 
+                { end_date: null }
             ]
         }).select({
             Title: 1,
@@ -252,7 +252,7 @@ const updateQuest = async (req, res) => {
         
         // Handle the end_date field
         const end_date = req.body.end_date === "" ? null : req.body.end_date;
-        
+
         // Validate the request data
         const result = questSchema.safeParse({
             Title: req.body.Title,
@@ -261,7 +261,7 @@ const updateQuest = async (req, res) => {
             start_date: req.body.start_date,
             end_date: end_date
         });
-        
+
         if (!result.success) {
             return res.status(400).json({
                 success: false,
@@ -272,32 +272,32 @@ const updateQuest = async (req, res) => {
         // Find the existing quest
         const existingQuest = await Quest.findById(id);
         if (!existingQuest) {
-            return res.status(404).json({ 
-                success: false, 
-                message: "Quest not found" 
+            return res.status(404).json({
+                success: false,
+                message: "Quest not found"
             });
         }
 
         // Check if quest is completed
         if (existingQuest.is_Active === "completed") {
-            return res.status(400).json({ 
-                success: false, 
-                message: "Cannot update a completed quest" 
+            return res.status(400).json({
+                success: false,
+                message: "Cannot update a completed quest"
             });
         }
 
         // Check if new title conflicts with other quests (excluding current quest)
-        const titleConflict = await Quest.findOne({ 
+        const titleConflict = await Quest.findOne({
             Title: req.body.Title,
             _id: { $ne: id }
         });
         if (titleConflict) {
-            return res.status(400).json({ 
-                success: false, 
-                message: "Quest with this title already exists" 
+            return res.status(400).json({
+                success: false,
+                message: "Quest with this title already exists"
             });
         }
-
+        
         // Prepare update data
         const updateData = {
             Title: req.body.Title,
@@ -305,7 +305,7 @@ const updateQuest = async (req, res) => {
             total_budget: Number(req.body.total_budget),
             start_date: req.body.start_date,
             end_date: end_date,
-            quest_image: req.file ? req.file.buffer : existingQuest.quest_image
+            quest_image: req.file.buffer ? req.file.buffer : existingQuest.quest_image // Keep existing image if no new image is provided
         };
 
         // Update the quest
@@ -314,25 +314,23 @@ const updateQuest = async (req, res) => {
             updateData,
             { new: true, runValidators: true }
         );
+         // Ensure existing image is converted to base64
 
-        // Convert quest_image buffer to base64 for response
-        const questResponse = updatedQuest.toObject();
-        if (questResponse.quest_image) {
-            questResponse.quest_image = questResponse.quest_image.toString('base64');
-        }
-
-        res.status(200).json({ 
-            success: true, 
-            message: "Quest updated successfully", 
-            quest: questResponse
+        res.status(200).json({
+            success: true,
+            message: "Quest updated successfully",
+            quest: {
+                ...updateData,
+                quest_image: updateData.quest_image.toString("base64")
+            }
         });
     }
     catch (err) {
         console.error('Error in updateQuest:', err);
-        res.status(500).json({ 
-            success: false, 
-            message: "Internal Server Error", 
-            errors: err.message 
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            errors: err.message
         });
     }
 }
@@ -341,14 +339,14 @@ const completeQuest = async (req, res) => {
     try {
         const { questId } = req.params;
         const userId = req.user.id;
-        if(!mongoose.Types.ObjectId.isValid(questId)){
+        if (!mongoose.Types.ObjectId.isValid(questId)) {
             return res.status(400).json({ success: false, message: "Invalid quest ID" });
         }
         const userQuest = await UserQuest.findOne({ fk_quest_id: questId, fk_user_id: userId });
-        if(!userQuest){
+        if (!userQuest) {
             return res.status(404).json({ success: false, message: "User quest not found" });
         }
-        if(userQuest.status === "Completed"){
+        if (userQuest.status === "Completed") {
             return res.status(400).json({ success: false, message: "Quest already completed" });
         }
         userQuest.status = "Completed";
@@ -362,8 +360,8 @@ const completeQuest = async (req, res) => {
 module.exports = {
     questCreate: questCreateController,
     getQuest: getQuestController,
-    changeQuestActiveStatus : updateQuestActiveStatus,
-    getActiveQuests : getActiveQuests,
-    updateQuest : updateQuest,
-    completeQuest : completeQuest
+    changeQuestActiveStatus: updateQuestActiveStatus,
+    getActiveQuests: getActiveQuests,
+    updateQuest: updateQuest,
+    completeQuest: completeQuest
 }

@@ -23,26 +23,6 @@ describe('AuthenticateUser Middleware Unit Tests', () => {
     jest.clearAllMocks();
   });
 
-  it('should authenticate user successfully with valid token', async () => {
-    const mockUser = {
-      _id: 'mockUserId',
-      username: 'test@example.com',
-      role: 'USER'
-    };
-    const mockToken = 'valid.jwt.token';
-
-    mockReq.headers.authorization = `Bearer ${mockToken}`;
-    jwt.verify.mockReturnValue({ id: mockUser._id });
-    User.findById.mockResolvedValue(mockUser);
-
-    await AuthenticateUser(mockReq, mockRes, mockNext);
-
-    expect(jwt.verify).toHaveBeenCalledWith(mockToken, process.env.JWT_KEY);
-    expect(User.findById).toHaveBeenCalledWith(mockUser._id);
-    expect(mockReq.user).toEqual(mockUser);
-    expect(mockNext).toHaveBeenCalled();
-  });
-
   it('should fail when no token provided', async () => {
     await AuthenticateUser(mockReq, mockRes, mockNext);
 

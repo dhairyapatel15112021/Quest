@@ -72,6 +72,10 @@ Quest/
    ```bash
    npm run dev
    ```
+5. **Run Tests**:
+   ```bash
+   npm test
+   ```
 
 ### Frontend Setup
 1. Navigate to the frontend directory:
@@ -83,6 +87,10 @@ Quest/
    ```bash
    npm install
    ```
+3. Create a `.env` file in the backend/src directory with the following variables:
+   ```
+   VITE_ROLES=ADMIN,USER
+   ```
 
 4. Start the frontend development server:
    ```bash
@@ -91,3 +99,6 @@ Quest/
 
 ## API Documentation
 The API documentation is available at `http://localhost:5050/api-docs` when the backend server is running. 
+
+## Test Coverage Report
+The Test Coverage Report is available at `http://127.0.0.1:5500/backend/coverage/lcov-report/backend/index.html` when the backend server is running.

@@ -96,7 +96,7 @@ export const UserChallanges = () => {
                                         <div className='col-span-2 text-xs md:text-sm font-medium text-black'>{challenge.Title || "No Title"}</div>
                                     </>
                                 )}
-                                <div className='col-span-3 flex gap-4 mb-3'>
+                                <div className='col-span-3 flex gap-4'>
                                     <div className='flex items-center gap-2 text-rose-500 font-light'>
                                         <Heart className='w-5 h-5' />
                                         <span>{challenge.like_video_count || 0} likes</span>
