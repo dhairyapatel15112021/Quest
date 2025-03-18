@@ -62,13 +62,13 @@ Quest/
 ```
 
 ## Setup Instructions
-- For installation and setup instructions, please refer to the <a href="/docs/SETUP.md">SETUP.md</a> file.
+- For installation and setup instructions, please refer to the <a href="https://github.com/dhairyapatel15112021/Quest/blob/app/docs/SETUP.md">SETUP.md</a> file.
 
 ## Database Schema
-- For Database Schema, please refer to the <a href="/docs/DB_Diagram.png">DB</a> file.
+- For Database Schema, please refer to the <a href="https://github.com/dhairyapatel15112021/Quest/blob/app/docs/DB_Diagram.png">DB</a> file.
 
 ## Application Architecture
-- For Application Architecture, please refer to the <a href="/docs/Architecture_Diagram.png">Architecture</a> Diagram.
+- For Application Architecture, please refer to the <a href="https://github.com/dhairyapatel15112021/Quest/blob/app/docs/Architecture_Diagram.png">Architecture</a> Diagram.
 
 ## Test Coverage Report
 The Test Coverage Report is available at `http://127.0.0.1:5500/backend/coverage/lcov-report/backend/index.html` when the backend server is running.
