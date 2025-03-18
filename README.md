@@ -69,3 +69,6 @@ Quest/
 
 ## Application Architecture
 - For Application Architecture, please refer to the <a href="/docs/Architecture_Diagram.png">Architecture</a> Diagram.
+
+## Test Coverage Report
+The Test Coverage Report is available at `http://127.0.0.1:5500/backend/coverage/lcov-report/backend/index.html` when the backend server is running.
