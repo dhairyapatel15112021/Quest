@@ -3,7 +3,7 @@ import { QuestState } from '../../data/Interface';
 import { Trophy } from '../../components/icons/Trophy';
 import { toast } from "react-toastify";
 import axios, { AxiosRequestConfig } from 'axios';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { useRecoilState } from 'recoil';
 import { questAtom } from '../../store/atoms/questAtom';
 import { useParams } from 'react-router-dom';

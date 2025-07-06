@@ -3,7 +3,7 @@ import { Edit } from '../../components/icons/Edit'
 import { Plus } from '../../components/icons/Plus'
 import { Link } from 'react-router-dom';
 import axios, { AxiosRequestConfig } from 'axios';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { toast } from 'react-toastify';
 import { Loader } from '../../components/Loader';
 import { Heart } from '../../components/icons/Heart';

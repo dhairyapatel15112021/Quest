@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { Loader } from '../../components/Loader';
 
 interface LeaderboardResponse {

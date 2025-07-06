@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { Trophy } from '../../components/icons/Trophy';
 import { Loader } from '../../components/Loader';
 import { Heart } from '../../components/icons/Heart';

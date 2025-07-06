@@ -8,7 +8,7 @@ import { questIdAtom } from '../../store/atoms/questIdAtom';
 import { Info } from '../../components/icons/Info';
 import { Loader } from '../../components/Loader';
 import { toast } from 'react-toastify';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import axios, { AxiosRequestConfig } from 'axios';
 
 export const Challenge = () => {

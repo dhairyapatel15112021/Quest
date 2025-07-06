@@ -5,7 +5,7 @@ import { Loader } from '../../components/Loader'
 import { Flag } from '../../components/icons/Flag'
 import axios, { AxiosResponse } from 'axios'
 import { AxiosRequestConfig } from 'axios'
-import { ApiEndPoints } from '../../data/ApiEndPoints'
+import { ApiEndPoints } from '../../query/api/ApiEndPoints'
 import { toast } from 'react-toastify'
 import { MdOutlineLeaderboard } from 'react-icons/md'
 

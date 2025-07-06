@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { Loader } from '../../components/Loader';
 import { FaCoffee, FaGift, FaTicketAlt } from 'react-icons/fa';
 import { userAtom } from '../../store/atoms/userAtom';

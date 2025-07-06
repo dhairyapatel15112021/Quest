@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { Loader } from '../../components/Loader';
 import { Link } from 'react-router-dom';
 

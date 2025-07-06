@@ -11,7 +11,7 @@ import { useRecoilState } from 'recoil';
 import { videoIndexAtom } from '../../store/atoms/videoIndexAtom';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { useKeyboard } from '../../hooks/useKeyboard';
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowLeft } from "react-icons/md";

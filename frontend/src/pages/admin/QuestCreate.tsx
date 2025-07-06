@@ -5,7 +5,7 @@ import { QuestState } from '../../data/Interface';
 import { Trophy } from '../../components/icons/Trophy';
 import { toast } from "react-toastify";
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 
 export const QuestCreate = () => {
   const [questData, setQuestData] = useState<QuestState>({ Title: "", Description: "", quest_image: new Uint8Array(), total_budget: 0, start_date: new Date(), end_date: new Date() });

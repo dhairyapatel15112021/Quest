@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
 import { useParams } from 'react-router-dom';
-import { ApiEndPoints } from '../../data/ApiEndPoints';
+import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { Loader } from '../../components/Loader';
 import { Flag } from '../../components/icons/Flag';
 
