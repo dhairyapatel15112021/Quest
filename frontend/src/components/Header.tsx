@@ -4,7 +4,6 @@ import { userAtom } from "../store/atoms/userAtom";
 import { Sidebar } from "./icons/Sidebar";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { Logout } from "./icons/Logout";
 import { User } from "./icons/User";
 import { Mobile } from "./icons/Mobile";
@@ -20,9 +19,7 @@ export const Header = () => {
     navigate("/login");
     toast.success("Logout Succesfull");
   };
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+
 
   return (
     <div className="h-[10vh] w-screen flex justify-between items-center px-5 pr-8 py-2">
@@ -41,7 +38,7 @@ export const Header = () => {
           </div>
           <ul
             tabIndex={0}
-            className="dropdown-content menu bg-white text-black rounded-box z-1 w-fit p-2 shadow-sm"
+            className="dropdown-content menu bg-white text-black rounded-box z-10 w-fit p-2 shadow-sm"
           >
             <li className="border-b border-gray-200">
               <div className="flex items-center gap-3">

@@ -1,67 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios, { AxiosRequestConfig } from 'axios';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ApiEndPoints } from '../../query/api/ApiEndPoints';
 import { Loader } from '../../components/Loader';
 import { Flag } from '../../components/icons/Flag';
+import { useFetchParticipantsQuery } from '../../query/api/admin/participants';
 
 // Define the response structure
-interface ChallengeResponse {
-  success: boolean;
-  message: string;
-  data: {
-    totalParticipants: number;
-    participants: Array<{
-      _id: string;
-      firstname: string;
-      lastname: string;
-      challenges: Array<{
-        _id: string;
-        title: string;
-        isCompleted: boolean;
-        like_video_count: number;
-        share_video_count: number;
-      }>;
-      rewards: {
-        points: number;
-        freeCoffee: number;
-      };
-    }>;
-  };
-}
-
 export const Participate: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [data, setData] = useState<ChallengeResponse['data'] | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const abortController = new AbortController();
-      const axiosConfig: AxiosRequestConfig = {
-        url: `${ApiEndPoints.getQuestParticipantsDetails}?questId=${id}`,
-        method: 'GET',
-        signal: abortController.signal,
-        headers: {
-          Authorization: localStorage.getItem('token')
-        }
-      };
-      const response: { data: ChallengeResponse } = await axios(axiosConfig);
-      setData(response.data.data);
-    } catch (error) {
-      console.error('Error fetching participants:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [id]);
-
-  const filteredParticipants = data?.participants.filter(
+  const { data: participantsData, isLoading } = useFetchParticipantsQuery(id || "");
+  
+  const filteredParticipants = participantsData?.data.participants?.filter(
     participant =>
       participant.firstname.toLowerCase().includes(searchTerm.toLowerCase()) ||
       participant.lastname.toLowerCase().includes(searchTerm.toLowerCase())
@@ -73,7 +22,7 @@ export const Participate: React.FC = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <div className="bg-amber-50 text-amber-800 py-2 px-4 rounded-lg border border-amber-200">
-            <span className="font-medium">Total Participants: {data?.totalParticipants || 0}</span>
+            <span className="font-medium">Total Participants: {participantsData?.data.totalParticipants || 0}</span>
           </div>
         </div>
         <div className="flex items-center space-x-3">
@@ -122,7 +71,7 @@ export const Participate: React.FC = () => {
 
       {/* Participants List */}
       <div className="space-y-4">
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center py-8">
             <Loader />
           </div>
