@@ -8,8 +8,6 @@ import { questAtom } from "../../store/atoms/questAtom";
 import { Loader } from "../../components/Loader";
 import { QuestState } from "../../data/Interface";
 import { Delete } from "../../components/icons/Delete";
-import { ApiEndPoints } from "../../query/api/ApiEndPoints";
-import axios, { AxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
 import { UpdateQuest } from "./UpdateQuest";
 import { useQuestToggleMutation } from "../../query/api/admin/quest";
@@ -48,14 +46,10 @@ export const QuestBanner = () => {
           id: questData?.id || "",
           is_Active: response.quest.is_Active,
         }));
-        toast.success(
-          response?.message || "Quest status updated successfully"
-        );
+        toast.success(response?.message || "Quest status updated successfully");
       },
       onError: (error) => {
-        toast.error(
-          error?.message || "Failed to update quest status"
-        );
+        toast.error(error?.message || "Failed to update quest status");
       },
     });
   };
