@@ -21,7 +21,7 @@ const Signup = async (data : AuthState) : Promise<SignupResponse> => {
         return response as SignupResponse;
     }
     catch (err : any) {
-        throw new Error(err);
+        throw new Error(err?.response?.data?.message || err);
     }
 }
 

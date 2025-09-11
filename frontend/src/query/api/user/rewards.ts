@@ -65,9 +65,9 @@ const claimReward = async (rewardId: string): Promise<ClaimRewardResponse> => {
   try {
     const abortController = new AbortController();
     const axiosConfig: AxiosInstanceProps = {
-      url: `{${ApiEndPoints.claimReward}${rewardId}}`,
+      url: `${ApiEndPoints.claimReward}${rewardId}`,
       signal: abortController.signal,
-      method: "GET",
+      method: "PUT",
       headers: { Authorization: localStorage.getItem("token") || "" },
     };
     const response: AxiosResponse<ClaimRewardResponse> = await axios.request(

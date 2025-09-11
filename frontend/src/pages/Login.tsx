@@ -54,13 +54,8 @@ export const Login = () => {
           ? navigate("/admin/dashboard")
           : navigate("/user/dashboard/quests");
       },
-      onError: (error: any) => {
-        toast.error(
-          error?.response?.data?.errors ||
-            error?.response?.data?.message ||
-            error?.errors ||
-            error?.message
-        );
+      onError: (error: Error) => {
+        toast.error(error?.message);
       },
     });
   };

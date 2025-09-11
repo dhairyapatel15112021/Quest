@@ -7,7 +7,7 @@ import { queryClient } from "../../../App";
 interface QuestsResponse {
   success: boolean;
   message: string;
-  data: Array<{
+  quests: Array<{
     _id: string;
     Title: string;
     Description: string;
@@ -39,7 +39,7 @@ export interface EnrollQuestResponse {
   message: string;
 }
 
-const ActiveQuests = async (): Promise<QuestsResponse> => {
+const ActiveQuests = async (): Promise<QuestsResponse["quests"]> => {
   try {
     const abortController = new AbortController();
     const axiosConfig: AxiosInstanceProps = {
@@ -53,32 +53,34 @@ const ActiveQuests = async (): Promise<QuestsResponse> => {
     const response: AxiosResponse<QuestsResponse> = await axios.request(
       axiosConfig
     );
-    return response.data;
+    return response.data.quests;
   } catch (error: any) {
     throw new Error(error);
   }
 };
 
 export const useFetchActiveQuestQuery = () => {
-  return useQuery<QuestsResponse, Error>({
+  return useQuery<QuestsResponse["quests"], Error>({
     queryKey: ["ActiveQuests"],
     queryFn: ActiveQuests,
-    staleTime: 0,
   });
 };
 
 export const updateQuestData = (questId: string) => {
-  queryClient.setQueryData<QuestsResponse["data"]>(["ActiveQuests"], (old) => {
-    if (!old) return;
-    return old.map((quest) =>
-      quest._id === questId
-        ? {
-            ...quest,
-            userQuestStatus: "In Progress",
-          }
-        : quest
-    );
-  });
+  queryClient.setQueryData<QuestsResponse["quests"]>(
+    ["ActiveQuests"],
+    (old) => {
+      if (!old) return;
+      return old.map((quest) =>
+        quest._id === questId
+          ? {
+              ...quest,
+              userQuestStatus: "In Progress",
+            }
+          : quest
+      );
+    }
+  );
 };
 
 const enrollQuest = async (questId: string): Promise<EnrollQuestResponse> => {
@@ -113,13 +115,14 @@ const fetchQuestDetails = async (
   try {
     const abortController = new AbortController();
     const axiosConfig: AxiosInstanceProps = {
-      url: `{${ApiEndPoints.getQuestDetails}${questId}}`,
+      url: `${ApiEndPoints.getQuestDetails}?questId=${questId}`,
       method: "GET",
       headers: {
         Authorization: localStorage.getItem("token") || "",
       },
       signal: abortController.signal,
     };
+    console.log(`{${ApiEndPoints.getQuestDetails}?questId=${questId}}`);
     const response: AxiosResponse<UserQuestResponse> = await axios.request(
       axiosConfig
     );

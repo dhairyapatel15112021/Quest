@@ -52,15 +52,9 @@ export const Signup = () => {
         toast.success(response.data.message);
         navigate("/login");
       },
-      onError: (error: any) => {
-        console.error("Signup Error: ", error.message);
+      onError: (error: Error) => {
         // Handle error response
-        toast.error(
-          error?.message ||
-            error?.response?.data?.errors ||
-            error?.response?.data?.message ||
-            error?.errors
-        );
+        toast.error(error.message);
       },
     });
   };

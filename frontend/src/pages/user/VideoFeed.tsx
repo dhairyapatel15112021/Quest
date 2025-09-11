@@ -122,13 +122,13 @@ export const VideoFeed = () => {
           if (data.isChallengeComplete) {
             toast.success(data.challengeMessage);
           }
-          updateStatusData(
+          updateStatsData(false, videos[videoIndex].filename, videoIndex,!videoStatus?.is_liked);
+           updateStatusData(
             false,
             videos[videoIndex].filename,
             videoIndex,
             challengeId
           );
-          updateStatsData(false, videos[videoIndex].filename, videoIndex);
           updateUserProgressData(challengeId, false);
         },
         onError(error) {
@@ -415,3 +415,9 @@ export const VideoFeed = () => {
     </>
   );
 };
+
+function VideoPlayer(){
+  return(
+    <></>
+  )
+}

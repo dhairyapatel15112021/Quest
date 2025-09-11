@@ -26,17 +26,21 @@ export const Quests = () => {
     });
   };
 
-  if (!activeQuests?.data) return;
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (!activeQuests) return;
 
   return (
     <>
-      {isLoading ? (
-        <div className="w-full h-full flex items-center justify-center">
-          <Loader />
-        </div>
-      ) : activeQuests?.data.length > 0 ? (
+      {activeQuests.length > 0 ? (
         <div className="py-5 w-full min-w-fit h-full grid grid-cols-2 gap-y-5 justify-items-center overflow-y-scroll">
-          {activeQuests.data.map((quest) => (
+          {activeQuests.map((quest) => (
             <div
               key={quest._id}
               className="relative w-4/5 bg-white h-fit rounded-lg flex flex-col items-center justify-center"

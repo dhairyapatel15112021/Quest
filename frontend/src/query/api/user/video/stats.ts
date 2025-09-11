@@ -5,13 +5,17 @@ import { AxiosInstanceProps } from "../../AxiosInstance";
 import { queryClient } from "../../../../App";
 
 interface VideoStatsResponse {
-  totalLikes: number;
-  totalShares: number;
+  data: {
+    totalLikes: number;
+    totalShares: number;
+  };
 }
 
 interface VideoStatusResponse {
-  is_liked: boolean;
-  is_shared: boolean;
+  data: {
+    is_liked: boolean;
+    is_shared: boolean;
+  };
 }
 
 interface UserProgressData {
@@ -30,7 +34,9 @@ interface UserProgressResponse {
   data: UserProgressData;
 }
 
-const fetchStats = async (fileName: string): Promise<VideoStatsResponse> => {
+const fetchStats = async (
+  fileName: string
+): Promise<VideoStatsResponse["data"]> => {
   try {
     if (!fileName || !fileName.trim()) {
       throw new Error("Invalid Video Filename");
@@ -47,14 +53,14 @@ const fetchStats = async (fileName: string): Promise<VideoStatsResponse> => {
     const response: AxiosResponse<VideoStatsResponse> = await axios.request(
       axiosConfig
     );
-    return response.data;
+    return response.data.data;
   } catch (err: any) {
     throw new Error(err);
   }
 };
 
 export const useFetchStatsQuery = (fileName: string, videoIndex: number) => {
-  return useQuery<VideoStatsResponse, Error>({
+  return useQuery<VideoStatsResponse["data"], Error>({
     queryFn: () => fetchStats(fileName),
     queryKey: ["Stats", fileName, videoIndex],
   });
@@ -63,7 +69,7 @@ export const useFetchStatsQuery = (fileName: string, videoIndex: number) => {
 const fetchStatus = async (
   fileName: string,
   challengeId: string | undefined
-): Promise<VideoStatusResponse> => {
+): Promise<VideoStatusResponse["data"]> => {
   try {
     if (!fileName || !fileName.trim()) {
       throw new Error("Invalid Video Filename");
@@ -83,7 +89,7 @@ const fetchStatus = async (
     const response: AxiosResponse<VideoStatusResponse> = await axios.request(
       axiosConfig
     );
-    return response.data;
+    return response.data.data;
   } catch (err: any) {
     throw new Error(err);
   }
@@ -94,7 +100,7 @@ export const useFetchStatusQuery = (
   challengeId: string | undefined,
   videoIndex: number
 ) => {
-  return useQuery<VideoStatusResponse, Error>({
+  return useQuery<VideoStatusResponse["data"], Error>({
     queryKey: ["Status", fileName, challengeId, videoIndex],
     queryFn: () => fetchStatus(fileName, challengeId),
   });
@@ -103,9 +109,10 @@ export const useFetchStatusQuery = (
 export const updateStatsData = (
   isShared: boolean,
   fileName: string,
-  videoIndex: number
+  videoIndex: number,
+  isLiked: boolean = false
 ) => {
-  return queryClient.setQueryData<VideoStatsResponse>(
+  return queryClient.setQueryData<VideoStatsResponse["data"]>(
     ["Stats", fileName, videoIndex],
     (old) => {
       if (!old) return old;
@@ -117,7 +124,7 @@ export const updateStatsData = (
       } else {
         return {
           ...old,
-          totalLikes: old.totalLikes + 1,
+          totalLikes: isLiked ? old.totalLikes + 1 : old.totalLikes - 1,
         };
       }
     }
@@ -130,7 +137,7 @@ export const updateStatusData = (
   videoIndex: number,
   challengeId: string | undefined
 ) => {
-  return queryClient.setQueryData<VideoStatusResponse>(
+  return queryClient.setQueryData<VideoStatusResponse["data"]>(
     ["Status", fileName, challengeId, videoIndex],
     (old) => {
       if (!old) return old;

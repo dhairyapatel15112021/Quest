@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { AuthState } from "../../../data/Interface";
 import { AxiosInstance, AxiosInstanceProps } from "../AxiosInstance";
 import { useMutation } from '@tanstack/react-query';
@@ -27,8 +27,8 @@ const login = async (data: AuthState): Promise<loginRequestResponse> => {
         };
         const response = await axios.request(AxiosInstance(axiosConfig));
         return response.data as loginRequestResponse;
-    } catch (err: any) {
-        throw new Error(err);
+    } catch (err : any) {
+        throw new Error(err?.response?.data?.errors || err);
     }
 };
 
