@@ -18,11 +18,12 @@ export const Rewards = () => {
   const handleClaimReward = (id: string) => {
     if (isPending) return;
     claimReward(id, {
-      onSuccess(data) {
-        toast.success(data.message || "Reward claimed successfully");
-        setUserData((userData: UserState | null) =>
-          userData ? { ...userData, wallet: data.wallet || 0 } : null
-        );
+      onSuccess({ data: { reward_type, points_added }, message }) {
+        toast.success(message || "Reward claimed successfully");
+        if (reward_type === "coupons")
+          setUserData((userData: UserState | null) =>
+            userData ? { ...userData, wallet: points_added || 0 } : null
+          );
         updateRewardData(id);
       },
       onError(error) {

@@ -14,7 +14,7 @@ function App() {
   const [isChecked, setIsChecked] = useState(false);
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden h-screen bg-[#f8f7f3]">
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ToastContainer />

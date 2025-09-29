@@ -144,7 +144,7 @@ const completeQuest = async (questId: string): Promise<{ message: string }> => {
     const abortController = new AbortController();
     const axiosConfig: AxiosInstanceProps = {
       url: `${ApiEndPoints.completeQuest}${questId}`,
-      method: "POST",
+      method: "PUT",
       signal: abortController.signal,
       headers: {
         Authorization: localStorage.getItem("token") || "",
@@ -166,13 +166,16 @@ export const useCompleteQuestMutation = () => {
 };
 
 export const setQuestData = (questId: string) => {
-  return queryClient.setQueryData<UserQuestResponse["data"]>(
+  return queryClient.setQueryData<UserQuestResponse>(
     ["Quests", questId],
     (old) => {
       if (!old) return old;
       return {
         ...old,
-        isCompleted: true,
+        data: {
+          ...old.data,
+          isCompleted: true,
+        },
       };
     }
   );

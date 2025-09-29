@@ -31,9 +31,9 @@ interface RewardResponse {
 }
 
 interface ClaimRewardResponse {
+  data : {reward_type : string,points_added : number},  
   success: boolean;
   message: string;
-  wallet: number;
 }
 
 const fetchRewards = async (): Promise<RewardResponse> => {
@@ -86,13 +86,16 @@ export const useClaimRewardMutation = () => {
 };
 
 export const updateRewardData = (rewardId: string) => {
-  queryClient.setQueryData<RewardResponse["data"]>(["Rewards"], (old) => {
+  queryClient.setQueryData<RewardResponse>(["Rewards"], (old) => {
     if (!old) return old;
     return {
       ...old,
-      rewards: old.rewards.map((reward) =>
-        reward._id === rewardId ? { ...reward, is_claimed: true } : reward
-      ),
+      data: {
+        ...old.data,
+        rewards: old.data.rewards.map((reward) =>
+          reward._id === rewardId ? { ...reward, is_claimed: true, status : "claimed" } : reward
+        ),
+      },
     };
   });
 };
