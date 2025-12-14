@@ -1,26 +1,24 @@
 import { useEffect } from "react";
 import { Edit } from "../../components/icons/Edit";
 import { Plus } from "../../components/icons/Plus";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Loader } from "../../components/Loader";
 import { Heart } from "../../components/icons/Heart";
 import { Share } from "../../components/icons/Share";
 import { Trophy } from "../../components/icons/Trophy";
 import { Coffee } from "../../components/icons/Coffee";
 import { Coupon } from "../../components/icons/Coupon";
-import { questIdAtom } from "../../store/atoms/questIdAtom";
-import { useRecoilValue } from "recoil";
 import { Delete } from "../../components/icons/Delete";
 import { useFetchChallengesQuery } from "../../query/api/admin/challenge";
 import { toast } from "react-toastify";
 
 export const Overview = () => {
-  const questId = useRecoilValue(questIdAtom);
+  const { id } = useParams<{ id: string }>();
   const {
     data: challengesData,
     isLoading,
     isError,
-  } = useFetchChallengesQuery(questId || "");
+  } = useFetchChallengesQuery(id || "");
   const challenges = challengesData?.data?.data?.challenges ?? [];
   const stats =
     challengesData?.data?.data?.questStats &&

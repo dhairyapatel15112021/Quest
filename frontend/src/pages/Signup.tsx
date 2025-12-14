@@ -87,7 +87,7 @@ export const Signup = () => {
               name="firstname"
               onChange={onChangeFunction}
               type="text"
-              className="input focus:outline-none bg-white p-2"
+              className="input focus:outline-none bg-white p-2 focus:bg-white active:bg-white"
               placeholder="Enter First Name"
             />
           </div>

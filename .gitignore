@@ -21,3 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 /docs/Tech_Stack
+*.txt

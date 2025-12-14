@@ -126,6 +126,16 @@ export const QuestCreate = () => {
         onSuccess: (response: QuestCreateResponse) => {
           // Reset form state
           toast.success(response.data.message);
+          setQuestData({
+            Title: "",
+            Description: "",
+            quest_image: new Uint8Array(),
+            total_budget: 0,
+            start_date: new Date(),
+            end_date: new Date(),
+          });
+          setAlwaysOn(false);
+          setImagePreview(null);
         },
         onError: (err: any) => {
           toast.error(
@@ -195,6 +205,7 @@ export const QuestCreate = () => {
               onChange={handleInputChange}
               name="Title"
               type="text"
+              value={questData.Title}
               className="input w-full focus:outline-none bg-[#f8f7f3] border border-black p-2"
               placeholder="Enter Title"
             />
@@ -207,6 +218,7 @@ export const QuestCreate = () => {
               onChange={handleInputChange}
               name="Description"
               type="text"
+              value={questData.Description}
               className="input w-full focus:outline-none bg-[#f8f7f3] border border-black p-2"
               placeholder="Enter Description"
             />
@@ -219,6 +231,7 @@ export const QuestCreate = () => {
               onChange={handleInputChange}
               name="total_budget"
               type="number"
+              value={questData.total_budget}
               className="input w-full focus:outline-none bg-[#f8f7f3] border border-black p-2"
               placeholder="Enter Budget"
             />

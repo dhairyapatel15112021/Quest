@@ -23,7 +23,7 @@ export const Challenge = () => {
   const id = useRecoilValue(questIdAtom);
   const [likeState, setLikeState] = useState(false);
   const [shareState, setShareState] = useState(false);
-  const [rewardCoffeState, setRewardCoffeState] = useState(false);
+  const [rewardCoffeeState, setRewardCoffeeState] = useState(false);
   const [rewardCouponState, setRewardCouponState] = useState(false);
   const [questData, setQuestData] = useState<QuestState>();
   const [challange, setChallenge] = useState<ChallengeQuest>({
@@ -73,10 +73,10 @@ export const Challenge = () => {
     if (rewardCouponState && points <= 0) {
       errors.push("Reward points must be greater than 0.");
     }
-    if ((rewardCoffeState || rewardCouponState) && expiryDuration <= 0) {
+    if ((rewardCoffeeState || rewardCouponState) && expiryDuration <= 0) {
       errors.push("Expiry duration must be greater than 0.");
     }
-    if (!rewardCoffeState && !rewardCouponState) {
+    if (!rewardCoffeeState && !rewardCouponState) {
       errors.push("At least one reward type must be selected.");
     }
     if (errors.length > 0) {
@@ -84,12 +84,13 @@ export const Challenge = () => {
       return;
     }
     let reward: ChallengeRewardQuest[] = [];
-    if (rewardCoffeState) {
+    if (rewardCoffeeState) {
       reward.push({
         reward_type: "free coffee",
         active_duration_days: expiryDuration,
       });
-    } else if (rewardCouponState) {
+    }
+    if (rewardCouponState) {
       reward.push({
         reward_type: "coupons",
         active_duration_days: expiryDuration,
@@ -101,6 +102,18 @@ export const Challenge = () => {
       {
         onSuccess: (data: CreateChallengeResponse) => {
           toast.success("Challenge created successfully");
+          setLikeState(false);
+          setShareState(false);
+          setRewardCoffeeState(false);
+          setRewardCouponState(false);
+          setChallenge(() => ({
+            Title: "",
+            like_video_count: 0,
+            share_video_count: 0,
+            fk_quest_id: id || "",
+          }));
+          setExpiryDuration(0);
+          setPoints(0);
         },
         onError: (error: any) => {
           toast.error(
@@ -188,11 +201,11 @@ export const Challenge = () => {
                   <div className="flex flex-col gap-2 w-full justify-between items-center">
                     <div
                       className={`${
-                        rewardCoffeState
+                        rewardCoffeeState
                           ? "bg-blue-500 text-white"
                           : "bg-orange-200 text-black"
                       } w-full py-3 h-fit text-center rounded-4xl cursor-pointer`}
-                      onClick={() => setRewardCoffeState(!rewardCoffeState)}
+                      onClick={() => setRewardCoffeeState(!rewardCoffeeState)}
                     >
                       Free Coffee?
                     </div>
@@ -218,6 +231,7 @@ export const Challenge = () => {
                           type="number"
                           className="input w-full focus:outline-none bg-[#f8f7f3] border border-black p-2"
                           placeholder="Reward Points"
+                          value={points}
                         />
                       </fieldset>
                     )}
@@ -246,6 +260,7 @@ export const Challenge = () => {
                   type="number"
                   className="input text-black w-full focus:outline-none bg-[#f8f7f3] border border-black p-2"
                   placeholder="Enter Days"
+                  value={expiryDuration}
                 />
               </fieldset>
               <fieldset className="fieldset w-full">
@@ -258,6 +273,7 @@ export const Challenge = () => {
                   type="text"
                   className="input w-full focus:outline-none bg-[#f8f7f3] border border-black p-2"
                   placeholder="Enter Title"
+                  value={challange.Title}
                 />
               </fieldset>
             </div>

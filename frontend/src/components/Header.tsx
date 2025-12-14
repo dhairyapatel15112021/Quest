@@ -38,7 +38,7 @@ export const Header = () => {
           </div>
           <ul
             tabIndex={0}
-            className="dropdown-content menu bg-white text-black rounded-box z-10 w-fit p-2 shadow-sm"
+            className="dropdown-content active:bg-white! menu bg-white text-black rounded-box z-10 w-fit p-2 shadow-sm"
           >
             <li className="border-b border-gray-200">
               <div className="flex items-center gap-3">
